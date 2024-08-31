@@ -7,8 +7,8 @@
     #define M_PI 3.14159265358979323846
 #endif
 
-#define DELTA_A -0.005
-#define DELTA_B 0.09
+#define DELTA_A 0.06
+#define DELTA_B -0.09
 
 #define DELTA_THETA 0.08
 #define DELTA_PHI 0.03
@@ -25,8 +25,8 @@
 #define MIN_Y -2.0
 #define MAX_Y -MIN_Y
 
-#define WIDTH 40
-#define HEIGHT 30
+#define WIDTH 35
+#define HEIGHT 20
 
 #define BRIGHTNESS_CHARS ".,:;!?$@"
 #define CHAR_COUNT 8
@@ -44,8 +44,6 @@ int main(void) {
       A += DELTA_A;
       B += DELTA_B;
       renderFrame(A, B);
-      if(A > 2 * M_PI) A = 0.0;
-      if(B > 2 * M_PI) B = 0.0;
       usleep(30000);
    }
 
