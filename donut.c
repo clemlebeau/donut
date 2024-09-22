@@ -62,8 +62,11 @@ void renderFrame(double A, double B) {
    double sinB = sin(B);
 
    for(double theta = 0.0; theta < 2 * M_PI; theta += DELTA_THETA) {
-      double RPlusrCosTheta = R + r * cos(theta);
-      double rSinTheta = r * sin(theta);
+      double cosTheta = cos(theta);
+      double sinTheta = sin(theta);
+      
+      double RPlusrCosTheta = R + r * cosTheta;
+      double rSinTheta = r * sinTheta;
       for(double phi = 0.0; phi < 2 * M_PI; phi += DELTA_PHI) {
          double cosPhi = cos(phi);
          double sinPhi = sin(phi);
@@ -103,8 +106,25 @@ void renderFrame(double A, double B) {
          if(ooz > depthBuffer[xIndex][yIndex]) {
             depthBuffer[xIndex][yIndex] = ooz;
 
-            double magnitude = sqrt(xRotated * xRotated + yRotated * yRotated + zRotated * zRotated);
-            double brightness = 0.57735 * (xRotated + yRotated + zRotated) / magnitude;
+            // Compute normal
+            // 1. Around circle
+            double xNormal = cosTheta;
+            double yNormal = sinTheta;
+            double zNormal = 0;
+
+            // 2. Rotate around y axis by phi
+            xNormal = cosPhi * xNormal; 
+            yNormal = yNormal;
+            zNormal = sinPhi * xNormal;
+
+            // 3. Apply A and B rotations
+            xNormal = xNormal * cosB - yNormal * sinB;
+            yNormal = xNormal * cosA * sinB + yNormal * cosA * cosB - zNormal * sinA;
+            zNormal = xNormal * sinA * sinB + yNormal * sinA * cosB + zNormal * cosA;
+
+            double magnitude = sqrt(xNormal * xNormal + yNormal * yNormal + zNormal * zNormal);
+            // Lighting: dot product of light direction with normal
+            double brightness = -0.57735 * (xNormal + yNormal + zNormal) / magnitude;
             int brightnessIndex = brightness > 0 ? CHAR_COUNT * brightness : 0;
 
             renderBuffer[xIndex][yIndex] = BRIGHTNESS_CHARS[brightnessIndex];

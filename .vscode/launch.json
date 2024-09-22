@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/cleme/OneDrive/Documents/donut",
-      "program": "c:/Users/cleme/OneDrive/Documents/donut/build/debug/program.exe",
+      "cwd": "d:/Code/donut",
+      "program": "d:/Code/donut/build/debug/program.exe",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
